@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+        User Page
+    </title>
+</head>
+<body>
+<h1>
+  <%=userInfo[0].username%>
+</h1>
+<% for (var i = 0; i < userPosts.length; i++) { %>
+    <p>
+        <%=userPosts[i].post_body%>
+        <%=userPosts[i].game_name%>
+        <%=userPosts[i].username%>
+    </p>
+<% } %>
+</body>

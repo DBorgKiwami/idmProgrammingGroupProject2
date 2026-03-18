@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+        Homepage
+    </title>
+</head>
+<body>
+<% for (var i = 0; i < popularPosts.length; i++) { %>
+    <h1>
+        <%=popularPosts[i].post_title%>
+    </h1>
+    <p>
+        <%=popularPosts[i].post_body%>
+        <%=popularPosts[i].game_name%>
+        <%=popularPosts[i].username%>
+    </p>
+<% } %>
+</body>
