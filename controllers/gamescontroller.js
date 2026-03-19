@@ -11,6 +11,13 @@ class GamesController {
         userPosts : games
     });
   }
+  
+  async getGamesSearch(req, res) {
+    console.log(req.params.name)
+    const games = await gamesmodel.getGamesSearch(req.params.name);
+
+    res.send(games)
+  }
 }
 
 module.exports = new GamesController();
