@@ -49,7 +49,7 @@ router.post("/logout", usercontroller.logout);
 
 // Now users must be logged in to access these two
 router.get("/post", ensureAuthenticated, postcontroller.createPostPage);
-router.get("/sendpost", ensureAuthenticated, postcontroller.createPost);
+router.post("/sendpost", ensureAuthenticated, postcontroller.createPost);
 
 
 router.get("/test", (req, res) => { res.render("testpost/") });
