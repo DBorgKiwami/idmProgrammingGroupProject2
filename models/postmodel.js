@@ -33,7 +33,7 @@ class PostModel{
 
     const connection =  await mysql.createConnection(DBCONFIG);
     try {
-        const QUERY = "INSERT INTO `posts`(`post_title`, `post_body`, `game_id`, `user_id`, `image_path`) VALUES ('" + title + "','" + content + "','" + gameid + "','" + userid + "','" + imagepath + "')";
+        const QUERY = "INSERT INTO `posts`(`post_title`, `post_body`, `game_id`, `user_id`) VALUES ('" + title + "','" + content + "','" + gameid + "','" + userid + "')";
         await connection.query(QUERY);
       return;
     } catch (err) {
