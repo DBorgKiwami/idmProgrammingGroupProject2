@@ -1,0 +1,21 @@
+<nav style="background: #333; color: white; padding: 10px; display: flex; justify-content: space-between; align-items: center; font-family: sans-serif;">
+    <div class="nav-left">
+        <strong style="font-size: 1.2rem; margin-right: 20px;">GameHub</strong>
+        <a href="/homepage" style="color: white; margin-right: 15px; text-decoration: none;">Home</a>
+    </div>
+
+    <div class="nav-right">
+        <% if (user) { %>
+            <a href="/post" style="color: #4CAF50; margin-right: 15px; text-decoration: none; font-weight: bold;">+ Create Post</a>
+            
+            <span>Welcome, <strong><%= user.username %></strong></span>
+            
+            <form action="/logout" method="POST" style="display:inline; margin-left: 15px;">
+                <button type="submit" style="background: #f44336; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px;">Logout</button>
+            </form>
+        <% } else { %>
+            <a href="/login" style="color: white; margin-right: 15px; text-decoration: none;">Login</a>
+            <a href="/register" style="color: white; text-decoration: none; border: 1px solid white; padding: 5px 12px; border-radius: 4px;">Sign Up</a>
+        <% } %>
+    </div>
+</nav>
