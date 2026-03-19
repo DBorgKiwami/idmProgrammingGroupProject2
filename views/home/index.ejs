@@ -6,7 +6,9 @@
     </title>
 </head>
 <body>
-<% for (var i = 0; i < popularPosts.length; i++) { %>
+<%- include("../partials/navigation.ejs") %>
+<% if (Array.isArray(popularPosts) && popularPosts.length > 0) { %>
+  <% for (var i = 0; i < popularPosts.length; i++) { %>
     <h1>
         <%=popularPosts[i].post_title%>
     </h1>
@@ -15,5 +17,8 @@
         <%=popularPosts[i].game_name%>
         <%=popularPosts[i].username%>
     </p>
+  <% } %>
+<% } else { %>
+  <p>No posts found yet.</p>
 <% } %>
 </body>

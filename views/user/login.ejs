@@ -1,0 +1,41 @@
+<%- include("../partials/header") %>
+<%- include("../partials/navigation") %>
+
+<main class="gamehub-login-page">
+    <div class="auth-container">
+        <h1>GameHub - Sign In</h1>
+
+        <% if (locals.errorMessage) { %>
+            <div class="alert-box" style="color: #d9534f; background: #f9f2f2; padding: 10px; margin-bottom: 20px;">
+                <strong>Error:</strong> <%= errorMessage %>
+            </div>
+        <% } %>
+
+        <form action="/login" method="POST" class="login-form">
+            
+            <div class="form-group">
+                <label for="login">Username</label>
+                <input type="text" name="login" id="login" placeholder="e.g., pro_gamer88" required />
+            </div>
+
+            <br>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your password" required />
+            </div>
+
+            <br>
+
+            <button type="submit" class="submit-btn">Login to GameHub</button>
+        </form>
+
+        <hr>
+
+        <p class="auth-footer">
+            Don't have a GameHub account? <a href="/register">Join us now</a>
+        </p>
+    </div>
+</main>
+
+<%- include("../partials/footer") %>

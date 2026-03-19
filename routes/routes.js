@@ -8,17 +8,51 @@ const testcontroller = require("../controllers/testcontroller");
 
 const router = express.Router();
 
+// router.get("/homepage", gamescontroller.getGames);
+
+// router.get("/", postcontroller.getPosts);
+
+// router.get("/user/:id", usercontroller.getUserById);
+
+// router.get("/post", postcontroller.createPostPage);
+
+// router.get("/sendpost", postcontroller.createPost);
+
+// router.get("/test", (req, res) => {res.render("testpost/")})
+
+// router.post("/test", testcontroller.getPostData);
+
+// Only restricts access to specific actions like creating a post
+function ensureAuthenticated(req, res, next) {
+    if (req.session && req.session.user) {
+        return next();
+    }
+    res.redirect("/login");
+}
+
+// --- ORIGINAL ROUTES (Keep them as they were) ---
 router.get("/homepage", gamescontroller.getGames);
 
 router.get("/", postcontroller.getPosts);
 
 router.get("/user/:id", usercontroller.getUserById);
 
-router.get("/post", postcontroller.createPostPage);
+// Add Login & Signup
+// Show Login/Register pages
+router.get("/login", usercontroller.showLogin);
+router.get("/register", usercontroller.showRegister);
 
-router.get("/sendpost", postcontroller.createPost);
+// Handle Form Submissions
+router.post("/login", usercontroller.login);
+router.post("/register", usercontroller.register);
+router.post("/logout", usercontroller.logout);
 
-router.get("/test", (req, res) => {res.render("testpost/")})
+// Now users must be logged in to access these two
+router.get("/post", ensureAuthenticated, postcontroller.createPostPage);
+router.get("/sendpost", ensureAuthenticated, postcontroller.createPost);
+
+
+router.get("/test", (req, res) => { res.render("testpost/") });
 
 router.post("/test", testcontroller.getPostData);
 

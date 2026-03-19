@@ -1,0 +1,26 @@
+<%- include("../partials/header") %>
+<%- include("../partials/navigation") %>
+
+<main>
+    <h1>Create GameHub Account</h1>
+
+    <% if (error) { %>
+        <p style="color: red;"><%= error %></p>
+    <% } %>
+
+    <form action="/register" method="POST">
+        <div>
+            <label>Username:</label>
+            <input type="text" name="username" required />
+        </div>
+        <br>
+        <div>
+            <label>Password:</label>
+            <input type="password" name="password" required />
+        </div>
+        <br>
+        <button type="submit">Create Account</button>
+    </form>
+</main>
+
+<%- include("../partials/footer") %>
