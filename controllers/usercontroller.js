@@ -26,6 +26,7 @@ class UserController {
     if (user && user.password === password) {
         // Simple authentication: save user object to session
         req.session.user = user;
+        console.log(user);
         res.redirect("/homepage");
     } else {
         res.render("user/login", { error: "Invalid username or password" });
