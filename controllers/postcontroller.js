@@ -21,10 +21,10 @@ class PostsController {
 
   async createPost(req, res){
     console.log("Big Beans 10")
-    console.log(req.query.title)
+    console.log(req.body.title)
     //title, content, gameid, userid, imagepath
 
-    const posts = await postmodel.createPost(req.query.title, req.query.content, req.query.game, req.query.user, null)
+    const posts = await postmodel.createPost(req.body.title, req.body.content, req.body.game, req.body.user, null)
     res.render("createpost/", {
     });
   }
