@@ -4,6 +4,7 @@ const bodyparser = require("body-parser");
 const gamescontroller = require("../controllers/gamescontroller");
 const postcontroller = require("../controllers/postcontroller");
 const usercontroller = require("../controllers/usercontroller");
+const commentcontroller = require("../controllers/commentcontroller");
 const testcontroller = require("../controllers/testcontroller");
 
 const router = express.Router();
@@ -50,6 +51,7 @@ router.post("/logout", usercontroller.logout);
 // Now users must be logged in to access these two
 router.get("/post", ensureAuthenticated, postcontroller.createPostPage);
 router.post("/sendpost", ensureAuthenticated, postcontroller.createPost);
+router.post("/comment/:id", ensureAuthenticated, commentcontroller.createComment);
 
 router.get("/gamesearchquery/:name", gamescontroller.getGamesSearch)
 

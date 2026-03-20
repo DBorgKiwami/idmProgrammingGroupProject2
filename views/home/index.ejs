@@ -16,6 +16,14 @@
         <%=popularPosts[i].post_body%>
         <%=popularPosts[i].game_name%>
         <%=popularPosts[i].username%>
+        <% if (user) { %>
+        <p>
+          <form action="/comment/<%=popularPosts[i].post_id%>" method="post" enctype="multipart/form-data" class="upload-form">
+		        <input id="content" name="content" type="text">
+		        <button type="submit">Comment</button>
+	        </form>
+        </p>
+        <% } %>
     </p>
   <% } %>
 <% } else { %>
