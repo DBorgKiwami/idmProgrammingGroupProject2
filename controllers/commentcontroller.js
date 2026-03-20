@@ -2,8 +2,16 @@ const commentmodel = require("../models/commentmodel");
 const qs = require("querystring");
 
 class CommentController {
+  async getCommentsByPostId(req, res){
+    console.log("Comment Controller Called to Retrieve comments on a post")
+    console.log(req.params.id)
+    const comments = await commentmodel.getCommentsOnPost(req.params.id)
+
+    res.send(comments);
+  }
+
   async createComment(req, res){
-    console.log("Big Beans 10")
+    console.log("Comment Controller Called to Create Comment")
     console.log(req.params.id)
     console.log(req.body.content)
     console.log(req.session.user)

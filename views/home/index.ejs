@@ -24,9 +24,14 @@
 	        </form>
         </p>
         <% } %>
+        <button class="commentbutton" id="commentbutton" data-postid="<%=popularPosts[i].post_id%>">View Comments</button>
+        <p class="commentsection">
+
+        </p>
     </p>
   <% } %>
 <% } else { %>
   <p>No posts found yet.</p>
 <% } %>
 </body>
+<script src="/viewcomments.js"></script>

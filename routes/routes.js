@@ -32,7 +32,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 // --- ORIGINAL ROUTES (Keep them as they were) ---
-router.get("/homepage", gamescontroller.getGames);
+router.get("/games", gamescontroller.getGames);
 
 router.get("/", postcontroller.getPosts);
 
@@ -54,6 +54,7 @@ router.post("/sendpost", ensureAuthenticated, postcontroller.createPost);
 router.post("/comment/:id", ensureAuthenticated, commentcontroller.createComment);
 
 router.get("/gamesearchquery/:name", gamescontroller.getGamesSearch)
+router.get("/postcomments/:id", commentcontroller.getCommentsByPostId)
 
 router.get("/test", (req, res) => { res.render("testpost/") });
 
