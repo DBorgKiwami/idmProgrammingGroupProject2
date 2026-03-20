@@ -1,7 +1,11 @@
 const DBCONFIG = require("../config/dbconfig");
 const mysql = require("mysql2/promise");
+const path = require("path");
+const crypto = require("crypto");
+const sharp = require("sharp");
 
 const QueryBuilder = require("node-querybuilder")
+const outputDirectory = path.join(__dirname, "..", "assets", "uploads");
 
 class PostModel{
   async getPosts() {
@@ -28,12 +32,41 @@ class PostModel{
     }
   }
 
-  async createPost(title, content, gameid, userid, imagepath){
+  async createPost(title, content, gameid, userid){
     console.log("CREATING POST")
 
     const connection =  await mysql.createConnection(DBCONFIG);
     try {
         const QUERY = "INSERT INTO `posts`(`post_title`, `post_body`, `game_id`, `user_id`) VALUES ('" + title + "','" + content + "','" + gameid + "','" + userid + "')";
+        await connection.query(QUERY);
+      return;
+    } catch (err) {
+      return console.error("Pool Query Error: " + err);
+    }
+  }
+
+  async createPostWithImage(title, content, gameid, userid, image){
+    console.log("CREATING POST WITH IMAGE")
+
+    const filename = crypto.randomUUID() + ".webp";
+    const outputPath = path.join(outputDirectory, filename);
+
+    console.log(image.data)
+
+    await sharp(image.data)
+		.rotate()
+		.resize({
+			width: 1600,
+			height: 1600,
+			fit: "inside",
+			withoutEnlargement: true,
+		})
+		.webp({ quality: 78 })
+		.toFile(outputPath);
+
+    const connection =  await mysql.createConnection(DBCONFIG);
+    try {
+        const QUERY = "INSERT INTO `posts`(`post_title`, `post_body`, `game_id`, `user_id`, `image_path`) VALUES ('" + title + "','" + content + "','" + gameid + "','" + userid + "','" + filename + "')";
         await connection.query(QUERY);
       return;
     } catch (err) {
