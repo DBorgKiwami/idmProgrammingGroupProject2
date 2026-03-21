@@ -15,6 +15,7 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "./views"));
 app.use(express.static(path.join(__dirname, "./scripts")));
+app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({ extended: true }));

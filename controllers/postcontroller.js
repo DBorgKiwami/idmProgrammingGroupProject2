@@ -29,7 +29,7 @@ class PostsController {
       const posts = await postmodel.createPost(req.body.title, req.body.content, req.body.game, req.session.user.user_id)
     }
     else{
-      const posts = await postmodel.createPostWithImage(req.body.title, req.body.content, req.body.game, req.session.user.id, req.files.image)
+      const posts = await postmodel.createPostWithImage(req.body.title, req.body.content, req.body.game, req.session.user.user_id, req.files.image)
     }
 
     res.render("createpost/", {

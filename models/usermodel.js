@@ -9,7 +9,7 @@ class UsersModel{
         const connection =  await mysql.createConnection(DBCONFIG);
         try {
             const QUERY = "SELECT * FROM users WHERE user_id = ?";
-            const [results, fields] = await connection.query(QUERY);
+            const [results, fields] = await connection.query(QUERY, [id]);
           return results;
         } catch (err) {
           return console.error("Pool Query Error: " + err);
