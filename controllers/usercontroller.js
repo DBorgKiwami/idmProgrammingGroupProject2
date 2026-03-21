@@ -7,7 +7,7 @@ class UserController {
     const user = await usermodel.getUserById(req.params.id);
     const posts = await postmodel.getPostsByUserId(req.params.id);
 
-    console.log(user[0].username);
+    console.log(user);
 
     //You can now send these records to your template
     res.render("user/index", {
