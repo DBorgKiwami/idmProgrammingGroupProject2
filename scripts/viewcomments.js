@@ -25,7 +25,7 @@ for(let i = 0; i < buttons.length; i++){
                 console.log(data.length)
                 let toPrint = ""
                 for(let j = 0; j < data.length; j++){
-                    commentContainers[i].innerHTML += data[j].content + " "
+                    commentContainers[i].innerHTML += data[j].username + " - " + data[j].content + "<br>"
                 }
             })
         }
