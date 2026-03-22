@@ -6,6 +6,7 @@ const postcontroller = require("../controllers/postcontroller");
 const usercontroller = require("../controllers/usercontroller");
 const commentcontroller = require("../controllers/commentcontroller");
 const testcontroller = require("../controllers/testcontroller");
+const likecontroller = require("../controllers/likecontroller");
 
 const router = express.Router();
 
@@ -48,10 +49,11 @@ router.post("/login", usercontroller.login);
 router.post("/register", usercontroller.register);
 router.post("/logout", usercontroller.logout);
 
-// Now users must be logged in to access these two
+// Now users must be logged in to access these
 router.get("/post", ensureAuthenticated, postcontroller.createPostPage);
 router.post("/sendpost", ensureAuthenticated, postcontroller.createPost);
 router.post("/comment/:id", ensureAuthenticated, commentcontroller.createComment);
+router.get("/likepost/:id", ensureAuthenticated, likecontroller.toggleLike);
 
 router.get("/gamesearchquery/:name", gamescontroller.getGamesSearch)
 router.get("/postcomments/:id", commentcontroller.getCommentsByPostId)

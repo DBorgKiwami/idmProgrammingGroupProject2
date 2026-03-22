@@ -9,17 +9,13 @@ const outputDirectory = path.join(__dirname, "..", "assets", "uploads");
 
 class CommentModel{
   async getCommentsOnPost(id) {
-    console.log("DBCONFIG", DBCONFIG);
-    const pool = new QueryBuilder(DBCONFIG, "mysql", "pool");
-    let qb;
+    const connection =  await mysql.createConnection(DBCONFIG);
     try {
-      qb = await pool.get_connection();
-      const results = await qb.select("*").where('post_id',id).get("comments");
-      return results;
+        const QUERY = "SELECT comments.comment_id, comments.content, comments.user_id, comments.post_id, comments.comment_date, users.username FROM `comments` INNER JOIN users on comments.user_id = users.user_id WHERE comments.post_id = ?";
+        const [results, fields] = await connection.query(QUERY,[id]);
+        return results;
     } catch (err) {
       return console.error("Pool Query Error: " + err);
-    } finally {
-      if (qb) qb.release();
     }
   }
 
@@ -28,8 +24,8 @@ class CommentModel{
 
     const connection =  await mysql.createConnection(DBCONFIG);
     try {
-        const QUERY = "INSERT INTO `comments`(`content`, `user_id`, `post_id`) VALUES ('" + content + "','" + user_id + "','" + post_id + "')";
-        await connection.query(QUERY);
+        const QUERY = "INSERT INTO `comments`(`content`, `user_id`, `post_id`) VALUES (?, ?, ?)";
+        await connection.query(QUERY,[content, user_id, post_id]);
       return;
     } catch (err) {
       return console.error("Pool Query Error: " + err);
