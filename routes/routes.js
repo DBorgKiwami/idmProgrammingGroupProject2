@@ -26,7 +26,8 @@ const router = express.Router();
 
 // Only restricts access to specific actions like creating a post
 function ensureAuthenticated(req, res, next) {
-    if (req.session && req.session.user) {
+    console.log(req.session)
+    if (req.session && req.session.user && usercontroller.userAuthentication(req, res)) {
         return next();
     }
     res.redirect("/login");
