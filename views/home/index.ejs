@@ -4,16 +4,42 @@
     <title>
         Homepage
     </title>
+    <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-<% for (var i = 0; i < popularPosts.length; i++) { %>
+<%- include("../partials/navigation.ejs") %>
+<% if (Array.isArray(popularPosts) && popularPosts.length > 0) { %>
+  <% for (var i = 0; i < popularPosts.length; i++) { %>
     <h1>
         <%=popularPosts[i].post_title%>
     </h1>
     <p>
+        Body:
         <%=popularPosts[i].post_body%>
+        Game:
         <%=popularPosts[i].game_name%>
+        User:
         <%=popularPosts[i].username%>
+        Likes:
+        <%=popularPosts[i].like_count%>
+        <% if (user) { %>
+        <p>
+          <form action="/comment/<%=popularPosts[i].post_id%>" method="post" enctype="multipart/form-data" class="upload-form">
+		        <input id="content" name="content" type="text">
+		        <button type="submit">Comment</button>
+	        </form>
+          <button class="likebutton" id="likebutton" data-postid="<%=popularPosts[i].post_id%>">Like Button</button>
+        </p>
+        <% } %>
+        <button class="commentbutton" id="commentbutton" data-postid="<%=popularPosts[i].post_id%>">View Comments</button>
+        <p class="commentsection">
+
+        </p>
     </p>
+  <% } %>
+<% } else { %>
+  <p>No posts found yet.</p>
 <% } %>
 </body>
+<script src="/viewcomments.js"></script>
+<script src="/likebutton.js"></script>

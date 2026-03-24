@@ -6,14 +6,15 @@
     </title>
 </head>
 <body>
+    <%- include("../partials/navigation.ejs") %>
     <h1>
         Create Post
     </h1>
-    <form action="/sendpost" enctype="multipart/form-data" class="upload-form">
+    <form action="/sendpost" method="post" enctype="multipart/form-data" class="upload-form">
 		<input id="title" name="title" type="text">
 		<input id="content" name="content" type="text">
 		<input id="game" name="game" type="text">
-		<input id="user" name="user" type="text">
+        <input id="image" name="image" type="file" accept="image/*">
 		<button type="submit">Post Test</button>
 	</form>
 </body>

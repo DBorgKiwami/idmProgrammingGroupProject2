@@ -21,12 +21,18 @@ class PostsController {
 
   async createPost(req, res){
     console.log("Big Beans 10")
-    console.log(req.query.title)
+    console.log(req.body.title)
+    console.log(req.session.user)
+    console.log(req.session.user.user_id)
     //title, content, gameid, userid, imagepath
+    if (!req.files || req.files.length === 0) {
+      const posts = await postmodel.createPost(req.body.title, req.body.content, req.body.game, req.session.user.user_id)
+    }
+    else{
+      const posts = await postmodel.createPostWithImage(req.body.title, req.body.content, req.body.game, req.session.user.user_id, req.files.image)
+    }
 
-    const posts = await postmodel.createPost(req.query.title, req.query.content, req.query.game, req.query.user, null)
-    res.render("createpost/", {
-    });
+    res.redirect("/");
   }
 }
 
