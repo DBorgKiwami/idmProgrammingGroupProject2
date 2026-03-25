@@ -11,13 +11,13 @@
           <%=popularPosts[i].post_body%>
           <% if (popularPosts[i].image_path) { %>
             <div class="postimagediv">
-              <img src="assets/uploads/<%=popularPosts[i].image_path%>" width="250" height="250">
+              <img src="assets/uploads/<%=popularPosts[i].image_path%>" width="250" height="250" style="border-radius: 10%;">
             </div>
           <% } %>
           <div class="postinfo">
             <div class="postgame"><%=popularPosts[i].game_name%></div>
             <div class="postusername"><a href="/user/<%=popularPosts[i].user_id%>"><%=popularPosts[i].username%></a></div>
-            <div class="postlikes"><%=popularPosts[i].like_count%></div>
+            <div class="postlikes" data-postid="<%=popularPosts[i].post_id%>"><%=popularPosts[i].like_count%></div>
           </div>
       </div>
           <% if (user) { %>

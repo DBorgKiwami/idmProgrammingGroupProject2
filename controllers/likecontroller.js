@@ -11,11 +11,17 @@ class LikeController {
 
     if(like[0].liked == 'TRUE'){
         console.log("beans the whole way down")
-        toReturn = await likemodel.removeLike(req.params.id, req.session.user.user_id)
+        await likemodel.removeLike(req.params.id, req.session.user.user_id)
+        toReturn = true
     }
     else{
-        toReturn = await likemodel.addLike(req.params.id, req.session.user.user_id)
+      await likemodel.addLike(req.params.id, req.session.user.user_id)
+      toReturn = false
     }
+
+    res.send(
+      {liked : toReturn}
+    )    
   }
 }
 

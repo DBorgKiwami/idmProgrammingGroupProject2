@@ -38,9 +38,10 @@ class LikeModel{
     try {
         const QUERY = "INSERT INTO likes (user_id, post_id) VALUES (?, ?)"
         const [results, fields] = await connection.query(QUERY, [user_id, post_id]);
-        return results;
+        return true;
     } catch (err) {
-      return console.error("Pool Query Error: " + err);
+      console.error("Pool Query Error: " + err);
+      return false;
     }
   }
 }
