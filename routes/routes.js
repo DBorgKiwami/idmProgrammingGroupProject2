@@ -26,7 +26,8 @@ const router = express.Router();
 
 // Only restricts access to specific actions like creating a post
 function ensureAuthenticated(req, res, next) {
-    if (req.session && req.session.user) {
+    console.log(req.session)
+    if (req.session && req.session.user && usercontroller.userAuthentication(req, res)) {
         return next();
     }
     res.redirect("/login");
@@ -55,8 +56,8 @@ router.post("/sendpost", ensureAuthenticated, postcontroller.createPost);
 router.post("/comment/:id", ensureAuthenticated, commentcontroller.createComment);
 router.get("/likepost/:id", ensureAuthenticated, likecontroller.toggleLike);
 
-router.get("/gamesearchquery/:name", gamescontroller.getGamesSearch)
-router.get("/postcomments/:id", commentcontroller.getCommentsByPostId)
+router.get("/gamesearchquery/:name", gamescontroller.getGamesSearch);
+router.get("/postcomments/:id", commentcontroller.getCommentsByPostId);
 
 router.get("/test", (req, res) => { res.render("testpost/") });
 

@@ -21,7 +21,7 @@ class PostsController {
 
   async createPost(req, res){
     console.log("Big Beans 10")
-    console.log(req.body.title)
+    console.log(req.body)
     console.log(req.session.user)
     console.log(req.session.user.user_id)
     //title, content, gameid, userid, imagepath
