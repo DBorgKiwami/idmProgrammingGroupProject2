@@ -1,19 +1,39 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>
-        User Page
-    </title>
-</head>
+<%- include("../partials/header.ejs") %>
 <body>
+<%- include("../partials/navigation.ejs") %>
 <h1>
   <%=userInfo[0].username%>
 </h1>
 <% for (var i = 0; i < userPosts.length; i++) { %>
-    <p>
-        <%=userPosts[i].post_body%>
-        <%=userPosts[i].game_name%>
-        <%=userPosts[i].username%>
-    </p>
+    <div class="post">
+      <h1 class="posttitle">
+          <%=userPosts[i].post_title%>
+      </h1>
+      <div class="post_body">
+          <%=userPosts[i].post_body%>
+          <% if (userPosts[i].image_path) { %>
+            <div class="postimagediv">
+              <img src="../assets/uploads/<%=userPosts[i].image_path%>" width="250" height="250">
+            </div>
+          <% } %>
+      </div>
+        <div class="postinfo">
+            <div class="postgame"><%=userPosts[i].game_name%></div>
+            <div class="postusername"><a href="/user/<%=userPosts[i].user_id%>"><%=userPosts[i].username%></a></div>
+            <div class="postlikes"><%=userPosts[i].like_count%></div>
+        </div>
+          <% if (user) { %>
+          <div class="commentform">
+            <form action="/comment/<%=userPosts[i].post_id%>" method="post" enctype="multipart/form-data" class="upload-form">
+              <input id="content" name="content" type="text">
+              <button type="submit">Comment</button>
+            </form>
+            <button class="likebutton" id="likebutton" data-postid="<%=userPosts[i].post_id%>">Like Button</button>
+          </div>
+          <% } %>
+          <button class="commentbutton" id="commentbutton" data-postid="<%=userPosts[i].post_id%>">View Comments</button>
+          <div class="commentsection">
+          </div>
+    </div>
 <% } %>
 </body>

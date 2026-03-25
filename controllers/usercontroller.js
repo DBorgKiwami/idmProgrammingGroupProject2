@@ -15,10 +15,12 @@ class UserController {
         userPosts : posts
     });
   }
+
   //login
   showLogin(req, res) {
     res.render("user/login", { error: null }); 
   }
+
   async login(req, res) {
     const { login, password } = req.body; // 'login' matches the name="login" in your EJS
     const user = await usermodel.findUserByUsername(login);
@@ -30,6 +32,17 @@ class UserController {
         res.redirect("/");
     } else {
         res.render("user/login", { error: "Invalid username or password" });
+    }
+  }
+
+  async userAuthentication(req, res){
+    const username = req.session.user.username;
+    const user = await usermodel.findUserByUsername(username);
+
+    if (req.session.user.password = user.password) {
+      return true;
+    } else {
+      return false;
     }
   }
 

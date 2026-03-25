@@ -1,20 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>
-        Homepage
-    </title>
-</head>
+<%- include("../partials/header.ejs") %>
 <body>
-    <%- include("../partials/navigation.ejs") %>
+<%- include("../partials/navigation.ejs") %>
     <h1>
         Create Post
     </h1>
     <form action="/sendpost" method="post" enctype="multipart/form-data" class="upload-form">
-		<input id="title" name="title" type="text">
-		<input id="content" name="content" type="text">
-		<input id="game" name="game" type="text">
+		<input id="title" name="title" type="text" placeholder="Post Title" required>
+		<input id="content" name="content" type="text" placeholder="Post Content" required>
+		<input id="gamesearch" type="text" placeholder="Search for a game...">
+        <select id="gamesearchoutput" name="game" required>
+            <option value="" disabled selected>Select a game</option>
+        </select>
         <input id="image" name="image" type="file" accept="image/*">
 		<button type="submit">Post Test</button>
 	</form>
+    <script src="/games.js"></script>
 </body>

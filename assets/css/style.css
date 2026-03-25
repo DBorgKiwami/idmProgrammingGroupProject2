@@ -6,3 +6,48 @@
 .commentsection {
     color: red;
 }
+
+.navbarhead {
+    background: #333;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: sans-serif;
+}
+
+.logolink {
+    color: white;
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+.createpost {
+    color: #4CAF50; margin-right: 15px; text-decoration: none; font-weight: bold;
+}
+
+.logoutcontainer {
+    display:inline; margin-left: 15px;
+}
+
+.logoutbutton {
+    background: #f44336; color: white; border: none; padding: 6px 12px; cursor: pointer; border-radius: 4px;
+}
+
+.loginbutton {
+    color: white; margin-right: 15px; text-decoration: none;
+}
+
+.registerbutton {
+    color: white; text-decoration: none; border: 1px solid white; padding: 5px 12px; border-radius: 4px;
+}
+
+.post {
+    border-radius: 16px;
+    border: 4px;
+    border-color: black;
+    border-style: solid;
+    padding:4px;
+    margin-top: 8px;
+}
