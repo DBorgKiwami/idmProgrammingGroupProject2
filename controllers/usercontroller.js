@@ -1,5 +1,8 @@
 const usermodel = require("../models/usermodel");
 const postmodel = require("../models/postmodel");
+const bcrypt = require("bcryptjs");
+
+const SALT_ROUNDS = 10;
 
 class UserController {
   async getUserById(req, res) {
@@ -23,13 +26,23 @@ class UserController {
     const { login, password } = req.body; // 'login' matches the name="login" in your EJS
     const user = await usermodel.findUserByUsername(login);
 
-    if (user && user.password === password) {
+    let isValidPassword = false;
+    if (user) {
+        if (typeof user.password === "string" && user.password.startsWith("$2")) {
+            isValidPassword = await bcrypt.compare(password, user.password);
+        } else {
+            // Backward compatibility for legacy plaintext records.
+            isValidPassword = user.password === password;
+        }
+    }
+
+    if (user && isValidPassword) {
         // Simple authentication: save user object to session
         req.session.user = user;
         console.log(user);
         res.redirect("/");
     } else {
-        res.render("user/login", { error: "Invalid username or password" });
+        res.render("user/login", { error: "Invalid username or password", errorMessage: "Invalid username or password" });
     }
   }
 
@@ -40,7 +53,8 @@ class UserController {
   async register(req, res) {
     const { username, password } = req.body;
     try {
-        await usermodel.registerUser(username, password);
+        const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+        await usermodel.registerUser(username, hashedPassword);
         res.redirect("/login");
     } catch (err) {
         res.render("user/register", { error: "Registration failed or username taken" });
