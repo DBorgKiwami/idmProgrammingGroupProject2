@@ -1,22 +1,66 @@
-<nav class="navbarhead">
-    <div class="nav-left">
-        <strong class="logotitle">GameHub</strong>
-        <a href="/" class="logolink">Home</a>
-        <a href="/games" class="logolink">List of Games</a>
+<aside class="sidebar">
+    <div class="sidebar-logo">
+        <a href="/" class="sidebar-logo-link">
+            <i class="fas fa-gamepad"></i>
+            <span>GameHub</span>
+        </a>
     </div>
 
-    <div class="nav-right">
+    <nav class="sidebar-nav">
+        <a href="/" class="nav-item">
+            <i class="fas fa-house"></i>
+            <span>Home</span>
+        </a>
+        <a href="/trending" class="nav-item">
+            <i class="fas fa-fire"></i>
+            <span>Trending</span>
+        </a>
+        <a href="/games" class="nav-item">
+            <i class="fas fa-dice-d20"></i>
+            <span>Genre</span>
+        </a>
+        <a href="/" class="nav-item">
+            <i class="fas fa-magnifying-glass"></i>
+            <span>Search</span>
+        </a>
         <% if (user) { %>
-            <a href="/post" class="createpost">+ Create Post</a>
-            
-            <span>Welcome, <strong><%= user.username %></strong></span>
-            
-            <form action="/logout" method="POST" class="logoutcontainer">
-                <button type="submit" class="logoutbutton">Logout</button>
+            <a href="/user/<%= user.user_id %>" class="nav-item">
+                <i class="fas fa-circle-user"></i>
+                <span>Profile</span>
+            </a>
+        <% } else { %>
+            <a href="/login" class="nav-item">
+                <i class="fas fa-circle-user"></i>
+                <span>Profile</span>
+            </a>
+        <% } %>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <% if (user) { %>
+            <a href="/post" class="nav-item nav-item--create">
+                <i class="fas fa-plus"></i>
+                <span>Create Post</span>
+            </a>
+            <span class="sidebar-username">
+                <i class="fas fa-circle-user"></i>
+                <%= user.username %>
+            </span>
+            <form action="/logout" method="POST">
+                <button type="submit" class="nav-item nav-item--logout">
+                    <i class="fas fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </button>
             </form>
         <% } else { %>
-            <a href="/login" class="loginbutton">Login</a>
-            <a href="/register" class="registerbutton">Sign Up</a>
+            <a href="/login" class="nav-item">
+                <i class="fas fa-right-to-bracket"></i>
+                <span>Login</span>
+            </a>
+            <a href="/register" class="nav-item">
+                <i class="fas fa-user-plus"></i>
+                <span>Sign Up</span>
+            </a>
         <% } %>
     </div>
-</nav>
+</aside>

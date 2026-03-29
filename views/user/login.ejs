@@ -1,41 +1,32 @@
 <%- include("../partials/header") %>
-<%- include("../partials/navigation") %>
+<body>
+<div class="app-layout">
 
-<main class="gamehub-login-page">
-    <div class="auth-container">
-        <h1>GameHub - Sign In</h1>
+    <%- include("../partials/navigation") %>
 
-        <% if (locals.errorMessage) { %>
-            <div class="alert-box" style="color: #d9534f; background: #f9f2f2; padding: 10px; margin-bottom: 20px;">
-                <strong>Error:</strong> <%= errorMessage %>
-            </div>
-        <% } %>
+    <main class="main-content auth-page">
+        <div class="auth-card">
+            <h1>Sign in</h1>
 
-        <form action="/login" method="POST" class="login-form">
-            
-            <div class="form-group">
-                <label for="login">Username</label>
-                <input type="text" name="login" id="login" placeholder="e.g., pro_gamer88" required />
-            </div>
+            <% if (locals.errorMessage) { %>
+                <div class="auth-error"><%= errorMessage %></div>
+            <% } %>
 
-            <br>
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <label for="login">Username</label>
+                    <input type="text" name="login" id="login" placeholder="e.g., pro_gamer88" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="auth-submit">Log in</button>
+            </form>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Enter your password" required />
-            </div>
+            <p class="auth-link">No account? <a href="/register">Sign up</a></p>
+        </div>
+    </main>
 
-            <br>
-
-            <button type="submit" class="submit-btn">Login to GameHub</button>
-        </form>
-
-        <hr>
-
-        <p class="auth-footer">
-            Don't have a GameHub account? <a href="/register">Join us now</a>
-        </p>
-    </div>
-</main>
-
+</div>
 <%- include("../partials/footer") %>

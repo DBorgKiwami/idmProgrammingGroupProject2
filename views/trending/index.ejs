@@ -1,0 +1,110 @@
+<%- include("../partials/header.ejs") %>
+<body>
+<div class="app-layout">
+
+    <%- include("../partials/navigation.ejs") %>
+
+    <main class="main-content">
+
+        <div class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <p class="hero-label">Trending Now</p>
+                <% if (typeof games !== 'undefined' && games.length > 0) { %>
+                    <h1 class="hero-title"><%= games[0].game_name %></h1>
+                    <p class="hero-desc">Explore the top games on GameHub. Find something new to play today.</p>
+                <% } else { %>
+                    <h1 class="hero-title">Welcome to GameHub</h1>
+                    <p class="hero-desc">Discover games, share your thoughts, and connect with fellow gamers.</p>
+                <% } %>
+                <a href="/games" class="hero-btn">Browse All Games</a>
+            </div>
+        </div>
+
+        <div class="trending-sections">
+
+            <div class="card-row-section">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <h2 class="section-title">What to Play</h2>
+                        <span class="section-sub">| Top picks just for you</span>
+                    </div>
+                </div>
+                <div class="card-row">
+                    <% if (typeof games !== 'undefined' && games.length > 0) { %>
+                        <% for (var i = 0; i < Math.min(games.length, 6); i++) { %>
+                            <div class="media-card">
+                                <div class="media-card-poster">
+                                    <div class="media-card-poster--placeholder">
+                                        <i class="fas fa-gamepad"></i>
+                                    </div>
+                                </div>
+                                <div class="media-card-info">
+                                    <h4 class="media-card-title"><%= games[i].game_name %></h4>
+                                    <a href="/games" class="media-card-btn">View Games</a>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <p class="no-posts">No games yet.</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <% if (typeof games !== 'undefined' && games.length > 6) { %>
+            <div class="card-row-section">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <h2 class="section-title">More Games</h2>
+                        <span class="section-sub">| Keep exploring</span>
+                    </div>
+                </div>
+                <div class="card-row">
+                    <% for (var i = 6; i < Math.min(games.length, 12); i++) { %>
+                        <div class="media-card">
+                            <div class="media-card-poster">
+                                <div class="media-card-poster--placeholder">
+                                    <i class="fas fa-gamepad"></i>
+                                </div>
+                            </div>
+                            <div class="media-card-info">
+                                <h4 class="media-card-title"><%= games[i].game_name %></h4>
+                                <a href="/games" class="media-card-btn">View Games</a>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <% } %>
+
+            <div class="card-row-section">
+                <div class="section-header">
+                    <div class="section-title-group">
+                        <h2 class="section-title">Browse by Genre</h2>
+                        <span class="section-sub">| Find your style</span>
+                    </div>
+                </div>
+                <div class="genre-chips">
+                    <% if (typeof genres !== 'undefined') { %>
+                        <% for (var i = 0; i < genres.length; i++) { %>
+                            <a href="/games" class="genre-chip"><%= genres[i].genre_name %></a>
+                        <% } %>
+                    <% } %>
+                </div>
+            </div>
+
+        </div>
+
+        <footer class="site-footer">
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/trending">Trending</a>
+                <a href="/games">Games</a>
+                <a href="/register">Sign Up</a>
+            </div>
+            <p class="footer-copy">an IDM class &nbsp;|&nbsp; © 2025-2026 GameHub</p>
+        </footer>
+
+    </main>
+</div>
+<%- include("../partials/footer.ejs") %>

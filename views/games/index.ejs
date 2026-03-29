@@ -1,12 +1,69 @@
 <%- include("../partials/header.ejs") %>
 <body>
-<%- include("../partials/navigation.ejs") %>
-    <h1>Game List</h1>
-    <input type="text" placeholder="Search.." id="gamesearch">
-    
-    <% for (var i = 0; i < popularPosts.length; i++) { %>
-        <p>
-            <%= popularPosts[i].game_name %></p>
-    <% } %>
-</body>
+<div class="app-layout">
+
+    <%- include("../partials/navigation.ejs") %>
+
+    <main class="main-content">
+
+        <div class="games-topbar">
+            <div class="games-searchbar">
+                <i class="fas fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search games..." id="gamesearch" class="games-search-input">
+            </div>
+        </div>
+
+        <div class="games-section">
+
+            <div class="games-header">
+                <h2 class="section-title">All Games</h2>
+            </div>
+
+            <div class="genre-chips">
+                <button class="genre-chip genre-chip--active">All</button>
+                <% if (typeof genres !== 'undefined') { %>
+                    <% for (var i = 0; i < genres.length; i++) { %>
+                        <button class="genre-chip"><%= genres[i].genre_name %></button>
+                    <% } %>
+                <% } %>
+            </div>
+
+            <div class="games-grid">
+                <% if (Array.isArray(popularPosts) && popularPosts.length > 0) { %>
+                    <% for (var i = 0; i < popularPosts.length; i++) { %>
+                        <div class="game-card">
+                            <div class="game-card-cover">
+                                <div class="game-card-cover--placeholder">
+                                    <i class="fas fa-gamepad"></i>
+                                </div>
+                            </div>
+                            <div class="game-card-info">
+                                <h3 class="game-card-title"><%= popularPosts[i].game_name %></h3>
+                                <div class="game-card-actions">
+                                    <button class="game-card-btn">View Posts</button>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } else { %>
+                    <p class="no-posts">No games found.</p>
+                <% } %>
+            </div>
+
+        </div>
+
+        <footer class="site-footer">
+            <div class="footer-links">
+                <a href="/">Home</a>
+                <a href="/trending">Trending</a>
+                <a href="/games">Games</a>
+                <a href="/register">Sign Up</a>
+            </div>
+            <p class="footer-copy">an IDM class &nbsp;|&nbsp; © 2025-2026 GameHub</p>
+        </footer>
+
+    </main>
+</div>
+
 <script src="/games.js"></script>
+<%- include("../partials/footer.ejs") %>
