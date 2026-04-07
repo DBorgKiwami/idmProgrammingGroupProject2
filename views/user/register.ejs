@@ -1,26 +1,32 @@
 <%- include("../partials/header") %>
-<%- include("../partials/navigation") %>
+<body>
+<div class="app-layout">
 
-<main>
-    <h1>Create GameHub Account</h1>
+    <%- include("../partials/navigation") %>
 
-    <% if (error) { %>
-        <p style="color: red;"><%= error %></p>
-    <% } %>
+    <main class="main-content auth-page">
+        <div class="auth-card">
+            <h1>Create account</h1>
 
-    <form action="/register" method="POST">
-        <div>
-            <label>Username:</label>
-            <input type="text" name="username" required />
+            <% if (locals.error) { %>
+                <div class="auth-error"><%= error %></div>
+            <% } %>
+
+            <form action="/register" method="POST">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" required>
+                </div>
+                <button type="submit" class="auth-submit">Create account</button>
+            </form>
+
+            <p class="auth-link">Already have an account? <a href="/login">Log in</a></p>
         </div>
-        <br>
-        <div>
-            <label>Password:</label>
-            <input type="password" name="password" required />
-        </div>
-        <br>
-        <button type="submit">Create Account</button>
-    </form>
-</main>
+    </main>
 
+</div>
 <%- include("../partials/footer") %>

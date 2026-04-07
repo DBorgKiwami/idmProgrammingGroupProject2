@@ -1,43 +1,91 @@
 <%- include("../partials/header.ejs") %>
 <body>
-<%- include("../partials/navigation.ejs") %>
-<% if (Array.isArray(popularPosts) && popularPosts.length > 0) { %>
-  <% for (var i = 0; i < popularPosts.length; i++) { %>
-    <div class="post">
-      <h1 class="posttitle">
-          <%=popularPosts[i].post_title%>
-      </h1>
-      <div class="post_body">
-          <%=popularPosts[i].post_body%>
-          <% if (popularPosts[i].image_path) { %>
-            <div class="postimagediv">
-              <img src="assets/uploads/<%=popularPosts[i].image_path%>" width="250" height="250" style="border-radius: 10%;">
+<div class="app-layout">
+
+    <%- include("../partials/navigation.ejs") %>
+
+    <main class="main-content">
+
+        <div class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <p class="hero-label">Featured</p>
+                <h1 class="hero-title">Welcome to GameHub</h1>
+                <p class="hero-desc">Discover games, share your thoughts, and connect with fellow gamers.</p>
+                <% if (user) { %>
+                    <a href="/post" class="hero-btn">+ Create Post</a>
+                <% } else { %>
+                    <a href="/register" class="hero-btn">Join Now</a>
+                <% } %>
             </div>
-          <% } %>
-          <div class="postinfo">
-            <div class="postgame"><%=popularPosts[i].game_name%></div>
-            <div class="postusername"><a href="/user/<%=popularPosts[i].user_id%>"><%=popularPosts[i].username%></a></div>
-            <div class="postlikes" data-postid="<%=popularPosts[i].post_id%>"><%=popularPosts[i].like_count%></div>
-          </div>
-      </div>
-          <% if (user) { %>
-          <div class="commentform">
-            <form action="/comment/<%=popularPosts[i].post_id%>" method="post" enctype="multipart/form-data" class="upload-form">
-              <input id="content" name="content" type="text">
-              <button type="submit">Comment</button>
-            </form>
-            <button class="likebutton" id="likebutton" data-postid="<%=popularPosts[i].post_id%>">Like Button</button>
-          </div>
-          <% } %>
-          <button class="commentbutton" id="commentbutton" data-postid="<%=popularPosts[i].post_id%>">View Comments</button>
-          <div class="commentsection">
-          </div>
-    </div>
-  <% } %>
-<% } else { %>
-  <p>No posts found yet.</p>
-<% } %>
-</body>
+        </div>
+
+        <div class="feed-section">
+            <div class="section-header">
+                <h2 class="section-title">Recent Posts</h2>
+                <span class="section-sub">Latest from the community</span>
+            </div>
+
+            <div class="posts-grid">
+                <% if (Array.isArray(popularPosts) && popularPosts.length > 0) { %>
+                    <% for (var i = 0; i < popularPosts.length; i++) { %>
+                        <div class="post-card">
+
+                            <div class="post-card-image">
+                                <% if (popularPosts[i].image_path) { %>
+                                    <img src="assets/uploads/<%=popularPosts[i].image_path%>" alt="<%=popularPosts[i].post_title%>">
+                                <% } else { %>
+                                    <div class="post-card-image--placeholder">
+                                        <i class="fas fa-gamepad"></i>
+                                    </div>
+                                <% } %>
+                            </div>
+
+                            <div class="post-card-info">
+                                <span class="post-card-game"><%=popularPosts[i].game_name%></span>
+                                <h3 class="post-card-title"><%=popularPosts[i].post_title%></h3>
+                                <p class="post-card-body"><%=popularPosts[i].post_body%></p>
+
+                                <div class="post-card-meta">
+                                    <a href="/user/<%=popularPosts[i].user_id%>" class="post-card-user">
+                                        <i class="fas fa-circle-user"></i>
+                                        <%=popularPosts[i].username%>
+                                    </a>
+                                    <span class="post-card-likes">
+                                        <i class="fas fa-heart"></i>
+                                        <span class="postlikes" data-postid="<%=popularPosts[i].post_id%>"><%=popularPosts[i].like_count%></span>
+                                    </span>
+                                </div>
+
+                                <% if (user) { %>
+                                    <div class="post-card-actions">
+                                        <button class="likebutton action-btn" id="likebutton" data-postid="<%=popularPosts[i].post_id%>">
+                                            <i class="fas fa-heart"></i> Like
+                                        </button>
+                                        <form action="/comment/<%=popularPosts[i].post_id%>" method="post" class="comment-form">
+                                            <input type="text" id="content" name="content" placeholder="Write a comment..." class="comment-input">
+                                            <button type="submit" class="comment-submit">Post</button>
+                                        </form>
+                                    </div>
+                                <% } %>
+
+                                <button class="commentbutton action-btn" id="commentbutton" data-postid="<%=popularPosts[i].post_id%>">
+                                    <i class="fas fa-comment"></i> View Comments
+                                </button>
+                                <div class="commentsection"></div>
+                            </div>
+
+                        </div>
+                    <% } %>
+                <% } else { %>
+                    <p class="no-posts">No posts yet. Be the first to post!</p>
+                <% } %>
+            </div>
+        </div>
+
+    </main>
+</div>
+
 <script src="/viewcomments.js"></script>
 <script src="/likebutton.js"></script>
 <%- include("../partials/footer.ejs") %>
