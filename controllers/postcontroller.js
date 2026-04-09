@@ -25,7 +25,7 @@ class PostsController {
 
   async getHomepage(req, res){
     const allposts = await postmodel.getPosts();
-    const relevantposts = null
+    var relevantposts = null
     if(req.session.user){
       relevantposts = await postmodel.getPostsByGameGenre(req.session.genre)
     }
