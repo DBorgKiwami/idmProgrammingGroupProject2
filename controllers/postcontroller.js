@@ -13,6 +13,32 @@ class PostsController {
     });
   }
 
+  async getPostsByGenre(req, res) {
+    const posts = await postmodel.getPostsByGameGenre(req.session.genre)
+
+    console.log(posts)
+
+    res.render("home/", {
+        popularPosts : posts
+    });
+  }
+
+  async getHomepage(req, res){
+    const allposts = await postmodel.getPosts();
+    const relevantposts = null
+    if(req.session.user){
+      relevantposts = await postmodel.getPostsByGameGenre(req.session.genre)
+    }
+
+    console.log(relevantposts)
+
+    //You can now send these records to your template
+    res.render("home/", {
+        popularPosts : allposts,
+        genrePosts : relevantposts
+    });
+  }
+
   async createPostPage(req, res){
      res.render("createpost/", {
 
