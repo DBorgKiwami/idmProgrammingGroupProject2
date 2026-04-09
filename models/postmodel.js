@@ -32,6 +32,18 @@ class PostModel{
     }
   }
 
+  async getPostsByGameGenre(genre) {
+    console.log("DBCONFIG", DBCONFIG);
+    const connection =  await mysql.createConnection(DBCONFIG);
+    try {
+        const QUERY = "SELECT posts.post_id, posts.post_title, posts.post_body, posts.game_id, posts.user_id, posts.post_date, posts.image_path, games.game_name, users.username, COALESCE(x.cnt,0) as like_count FROM posts INNER JOIN games ON posts.game_id = games.game_id INNER JOIN users ON posts.user_id = users.user_id LEFT OUTER JOIN (SELECT post_id, count(*) cnt FROM likes GROUP BY post_id) x ON posts.post_id = x.post_id WHERE games.genre_id = ? ORDER BY posts.post_date DESC";
+        const [results, fields] = await connection.query(QUERY, [id]);
+      return results;
+    } catch (err) {
+      return console.error("Pool Query Error: " + err);
+    }
+  }
+
   async createPost(title, content, gameid, userid){
     console.log("CREATING POST")
 

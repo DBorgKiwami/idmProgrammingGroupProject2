@@ -36,7 +36,7 @@ function ensureAuthenticated(req, res, next) {
 // --- ORIGINAL ROUTES (Keep them as they were) ---
 router.get("/games", gamescontroller.getGames);
 
-router.get("/", postcontroller.getPosts);
+router.get("/", postcontroller.getHomepage);
 
 router.get("/user/:id", usercontroller.getUserById);
 
