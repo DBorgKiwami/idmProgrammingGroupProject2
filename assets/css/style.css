@@ -740,6 +740,16 @@ a {
     margin-bottom: 20px;
 }
 
+.auth-success {
+    background-color: #163d12;
+    border: 1px solid #4caf50;
+    color: #b8f2b8;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+}
+
 .form-group {
     margin-bottom: 18px;
 }

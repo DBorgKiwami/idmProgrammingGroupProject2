@@ -33,5 +33,36 @@ class GamesModel{
       if (qb) qb.release();
     }
   }
+
+  async getAllGenres() {
+    console.log("DBCONFIG", DBCONFIG);
+    const pool = new QueryBuilder(DBCONFIG, "mysql", "pool");
+    let qb;
+    try {
+      qb = await pool.get_connection();
+      const results = await qb.select("*").get("genre"); 
+      return results;
+    } catch (err) {
+      return console.error("Pool Query Error: " + err);
+    } finally {
+      if (qb) qb.release();
+    }
+  }
+  async getGenreById(genreId) {
+    const pool = new QueryBuilder(DBCONFIG, "mysql", "pool");
+    let qb;
+    try {
+      qb = await pool.get_connection();
+      const result = await qb.select("*").where("genre_id", genreId).get("genre");
+      return result[0];
+    } catch (err) {
+      console.error("Pool Query Error: " + err);
+      return null;
+    } finally {
+      if (qb) qb.release();
+    }
+  }
+
+  
 }
 module.exports = new GamesModel();

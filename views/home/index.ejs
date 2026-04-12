@@ -20,6 +20,53 @@
             </div>
         </div>
 
+        <% if (user && user.fav_genres) { %>
+            <div class="feed-section" style="border-radius: 15px; margin-bottom: 20px;">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        Recommended: <%= genreInfo ? genreInfo.genre_name : "Post For You" %>
+                    </h2>
+                    <span class="section-sub">
+                        <%= genreInfo ? genreInfo.genre_description : "Based on your favorite genre" %>
+                    </span>
+                </div>
+
+                <div class="posts-grid">
+                    <% if (genrePosts && genrePosts.length > 0) { %>
+                        <% genrePosts.forEach(function(post) { %>
+                            <div class="post-card">
+                                <div class="post-card-image">
+                                    <% if (post.image_path) { %>
+                                        <img src="assets/uploads/<%=post.image_path%>" alt="<%=post.post_title%>">
+                                    <% } else { %>
+                                        <div class="post-card-image--placeholder"><i class="fas fa-gamepad"></i></div>
+                                    <% } %>
+                                </div>
+                                <div class="post-card-info">
+                                    <span class="post-card-game"><%=post.game_name%></span>
+                                    <h3 class="post-card-title"><%=post.post_title%></h3>
+                                    <p class="post-card-body"><%=post.post_body%></p>
+                                    <div class="post-card-meta">
+                                        <span class="post-card-user"><i class="fas fa-circle-user"></i> <%=post.username%></span>
+                                        <span class="post-card-likes"><i class="fas fa-heart"></i> <%=post.like_count%></span>
+                                    </div>
+                                    
+                                    <button class="commentbutton action-btn" data-postid="<%=post.post_id%>">
+                                        <i class="fas fa-comment"></i> View Comments
+                                    </button>
+                                    <div class="commentsection"></div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <p class="no-posts" style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #666;">
+                            No posts in your favorite genre yet. Be the first to share something!
+                        </p>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+
         <div class="feed-section">
             <div class="section-header">
                 <h2 class="section-title">Recent Posts</h2>
@@ -30,7 +77,6 @@
                 <% if (Array.isArray(popularPosts) && popularPosts.length > 0) { %>
                     <% for (var i = 0; i < popularPosts.length; i++) { %>
                         <div class="post-card">
-
                             <div class="post-card-image">
                                 <% if (popularPosts[i].image_path) { %>
                                     <img src="assets/uploads/<%=popularPosts[i].image_path%>" alt="<%=popularPosts[i].post_title%>">
@@ -74,7 +120,6 @@
                                 </button>
                                 <div class="commentsection"></div>
                             </div>
-
                         </div>
                     <% } %>
                 <% } else { %>

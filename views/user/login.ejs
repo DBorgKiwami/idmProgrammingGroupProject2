@@ -11,6 +11,9 @@
             <% if (locals.errorMessage) { %>
                 <div class="auth-error"><%= errorMessage %></div>
             <% } %>
+            <% if (locals.successMessage) { %>
+                <div class="auth-success"><%= successMessage %></div>
+            <% } %>
 
             <form action="/login" method="POST">
                 <div class="form-group">
