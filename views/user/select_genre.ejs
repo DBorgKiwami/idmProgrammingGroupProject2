@@ -1,0 +1,89 @@
+<%- include("../partials/header.ejs") %> <body>
+<div class="app-layout">
+    <%- include("../partials/navigation.ejs") %>
+
+    <main class="main-content">
+        <div style="max-width: 900px; margin: 60px auto; padding: 30px; background: white; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
+            
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2 style="font-size: 2rem; color: #333; margin-bottom: 10px;">One Last Step! 🎮</h2>
+                <p style="color: #666; font-size: 1.1rem;">Pick your favorite game genre to personalize your experience.</p>
+            </div>
+
+            <form action="/save-favorite" method="POST">
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
+                    
+                    <% if (genres && genres.length > 0) { %>
+                        <% genres.forEach(genre => { %>
+                            <div class="genre-item">
+                                <input type="radio" name="genreId" value="<%= genre.genre_id %>" id="genre_<%= genre.genre_id %>" required style="display: none;">
+                                
+                                <label for="genre_<%= genre.genre_id %>" class="genre-card">
+                                    <%= genre.genre_name %>
+                                </label>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p>Loading genres...</p>
+                    <% } %>
+
+                </div>
+
+                <div style="text-align: center; margin-top: 50px;">
+                    <button type="submit" class="submit-btn">Save & Go to Homepage</button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<style>
+    .genre-card {
+        display: inline-block;
+        padding: 14px 28px;
+        background: #f8f9fa;
+        border: 2px solid #eee;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        font-weight: 600;
+        color: #555;
+        user-select: none;
+    }
+
+    .genre-card:hover {
+        background: #fff;
+        border-color: #f5c518;
+        color: #f5c518;
+        transform: translateY(-2px);
+    }
+
+    input[type="radio"]:checked + .genre-card {
+        background: #f5c518;
+        color: white;
+        border-color: #f5c518;
+        box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    }
+
+    .submit-btn {
+        background: #222;
+        color: white;
+        padding: 16px 50px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .submit-btn:hover { 
+        background: #000;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .submit-btn:active {
+        transform: scale(0.98);
+    }
+</style>
+
+<%- include("../partials/footer.ejs") %>

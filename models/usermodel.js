@@ -37,7 +37,22 @@ class UsersModel{
             const [results] = await connection.query(QUERY, [username, password]);
             return results;
         } catch (err) {
-            return console.error("Register Query Error: " + err);
+            console.error("Register Query Error: " + err);
+            throw err;
+        } finally {
+            await connection.end();
+        }
+    }
+    async updateFavoriteGenre(userId, genreId) {
+        const connection = await mysql.createConnection(DBCONFIG);
+        try {
+            const QUERY = "UPDATE users SET fav_genres = ? WHERE user_id = ?";
+            const [results] = await connection.query(QUERY, [genreId, userId]);
+            
+            console.log(`User ${userId} preference updated to genre ${genreId}`);
+            return results;
+        } catch (err) {
+            return console.error("Update Favorite Genre Error: " + err);
         } finally {
             await connection.end();
         }

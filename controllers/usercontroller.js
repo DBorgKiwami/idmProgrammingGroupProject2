@@ -1,5 +1,6 @@
 const usermodel = require("../models/usermodel");
 const postmodel = require("../models/postmodel");
+const gamesmodel = require("../models/gamesmodel");
 
 class UserController {
   async getUserById(req, res) {
@@ -16,9 +17,11 @@ class UserController {
     });
   }
 
+  
   //login
   showLogin(req, res) {
-    res.render("user/login", { error: null }); 
+    const successMessage = req.query.registered ? "Registration successful. Please log in." : null;
+    res.render("user/login", { errorMessage: null, successMessage }); 
   }
 
   async login(req, res) {
@@ -28,10 +31,14 @@ class UserController {
     if (user && user.password === password) {
         // Simple authentication: save user object to session
         req.session.user = user;
-        console.log(user);
-        res.redirect("/");
+        //fav_genres
+        if (!user.fav_genres) {
+            console.log("New user, redirecting to selection page...");
+            return res.redirect("/select-genre"); 
+        }
+        res.redirect("/"); 
     } else {
-        res.render("user/login", { error: "Invalid username or password" });
+        res.render("user/login", { errorMessage: "Invalid username or password", successMessage: null });
     }
   }
 
@@ -39,7 +46,7 @@ class UserController {
     const username = req.session.user.username;
     const user = await usermodel.findUserByUsername(username);
 
-    if (req.session.user.password = user.password) {
+    if (req.session.user.password === user.password) {
       return true;
     } else {
       return false;
@@ -54,11 +61,37 @@ class UserController {
     const { username, password } = req.body;
     try {
         await usermodel.registerUser(username, password);
-        res.redirect("/login");
+        res.redirect("/login?registered=1");
     } catch (err) {
         res.render("user/register", { error: "Registration failed or username taken" });
     }
   }
+
+  // chose fav_genre
+async showGenreSelection(req, res) {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
+
+    const allGenres = await gamesmodel.getAllGenres(); 
+    res.render("user/select_genre", { genres: allGenres });
+}
+
+async saveFavoriteGenre(req, res) {
+    const { genreId } = req.body; //genreID for ejs
+    const userId = req.session.user.user_id;
+
+    try {
+        await usermodel.updateFavoriteGenre(userId, genreId);
+        req.session.user.fav_genres = genreId;
+
+        console.log(`User ${userId} selected favorite genre: ${genreId}`);
+        res.redirect("/"); 
+    } catch (err) {
+        console.error(err);
+        res.redirect("/select-genre");
+    }
+}
 
   //logout
   logout(req, res) {

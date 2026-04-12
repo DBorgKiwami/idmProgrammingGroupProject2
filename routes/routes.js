@@ -9,26 +9,15 @@ const testcontroller = require("../controllers/testcontroller");
 const likecontroller = require("../controllers/likecontroller");
 
 const router = express.Router();
-
-// router.get("/homepage", gamescontroller.getGames);
-
-// router.get("/", postcontroller.getPosts);
-
-// router.get("/user/:id", usercontroller.getUserById);
-
-// router.get("/post", postcontroller.createPostPage);
-
-// router.get("/sendpost", postcontroller.createPost);
-
-// router.get("/test", (req, res) => {res.render("testpost/")})
-
-// router.post("/test", testcontroller.getPostData);
-
 // Only restricts access to specific actions like creating a post
-function ensureAuthenticated(req, res, next) {
+async function ensureAuthenticated(req, res, next) {
     console.log(req.session)
-    if (req.session && req.session.user && usercontroller.userAuthentication(req, res)) {
-        return next();
+    if (req.session && req.session.user) {
+        const isValid = await usercontroller.userAuthentication(req, res);
+
+        if (isValid) {
+            return next(); 
+        }
     }
     res.redirect("/login");
 }
@@ -49,6 +38,10 @@ router.get("/register", usercontroller.showRegister);
 router.post("/login", usercontroller.login);
 router.post("/register", usercontroller.register);
 router.post("/logout", usercontroller.logout);
+
+//select genre
+router.get("/select-genre", ensureAuthenticated, usercontroller.showGenreSelection);
+router.post("/save-favorite", ensureAuthenticated, usercontroller.saveFavoriteGenre);
 
 // Now users must be logged in to access these
 router.get("/post", ensureAuthenticated, postcontroller.createPostPage);

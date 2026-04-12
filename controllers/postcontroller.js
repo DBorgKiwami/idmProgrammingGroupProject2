@@ -1,4 +1,5 @@
 const postmodel = require("../models/postmodel");
+const gamesmodel = require("../models/gamesmodel");
 const qs = require("querystring");
 
 class PostsController {
@@ -25,17 +26,19 @@ class PostsController {
 
   async getHomepage(req, res){
     const allposts = await postmodel.getPosts();
-    var relevantposts = null
-    if(req.session.user){
-      relevantposts = await postmodel.getPostsByGameGenre(req.session.genre)
+    let relevantposts = [];
+    let favGenreDetails = null;
+    if (req.session.user && req.session.user.fav_genres) {
+        const favId = req.session.user.fav_genres;
+        relevantposts = await postmodel.getPostsByGameGenre(favId) || [];
+        favGenreDetails = await gamesmodel.getGenreById(favId);
     }
-
-    console.log(relevantposts)
-
-    //You can now send these records to your template
+    console.log("Recommended Posts:", relevantposts);
     res.render("home/", {
         popularPosts : allposts,
-        genrePosts : relevantposts
+        genrePosts : relevantposts,
+        genreInfo: favGenreDetails,
+        user: req.session.user
     });
   }
 
