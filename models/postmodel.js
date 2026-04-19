@@ -66,14 +66,13 @@ class PostModel{
 
     console.log(image.data)
 
-    await sharp(image.data)
-		.rotate()
-		.resize({
-			width: 1600,
-			height: 1600,
-			fit: "inside",
-			withoutEnlargement: true,
-		})
+	    await sharp(image.data)
+			.rotate()
+			.resize({
+				width: 600,
+				fit: "inside",
+				withoutEnlargement: true,
+			})
 		.webp({ quality: 78 })
 		.toFile(outputPath);
     console.log(title, content, gameid, userid, image, filename)
