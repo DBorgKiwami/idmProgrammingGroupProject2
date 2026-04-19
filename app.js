@@ -38,10 +38,12 @@ app.use((req, res, next) => {
 
 app.use(fileupload({
     limits: {
-        fileSize: 2000000000,
+        fileSize: 2 * 1024 * 1024,
     },
     abortOnLimit: true,
-    limitHandles: ()=>console.log("helhgerhregkjhegr")
+    limitHandler: (req, res) => {
+        return res.status(413).send("Uploaded file is too large. Maximum size is 2MB.");
+    }
 })
 );
 
