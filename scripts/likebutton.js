@@ -1,36 +1,52 @@
-const likebuttons = document.getElementsByClassName("likebutton")
-const likedisplays = document.getElementsByClassName("postlikes")
+const likeButtons = document.getElementsByClassName("likebutton");
+const likeDisplays = document.getElementsByClassName("postlikes");
 
-const likedict = {}
+const likeDict = {};
 
-for(let i = 0; i < likedisplays.length; i++){
-    console.log("TELL EM ABOUT THE BEANS")
-    likedict[likedisplays[i].dataset.postid] = likedisplays[i]
+for (let i = 0; i < likeDisplays.length; i++) {
+  likeDict[likeDisplays[i].dataset.postid] = likeDisplays[i];
 }
 
-console.log(likedict)
+for (let i = 0; i < likeButtons.length; i++) {
+  likeButtons[i].addEventListener("click", async function (event) {
+    event.preventDefault();
 
-for(let i = 0; i < likebuttons.length; i++){
-    console.log(likebuttons[i].dataset)
-    console.log("im going to kill every single person here")
-    likebuttons[i].addEventListener('click', function() {
-        console.log("BEWARE OF BEANS")
-        console.log(event.target.dataset.postid)
-        let id = event.target.dataset.postid
-        fetch("/likepost/" + event.target.dataset.postid).then((response) => {
-                console.log(response)
-                console.log("Promise Made")
-                return response.json()
-            }).then(data => {
-                console.log("Data Recieved")
-                console.log(data)
-                console.log(data.liked)
-                if(data.liked){
-                    likedict[id].innerHTML =  parseInt(likedict[id].innerHTML) - 1
-                }
-                else{
-                    likedict[id].innerHTML =  parseInt(likedict[id].innerHTML) + 1
-                }
-            })
-    })
+    const button = event.currentTarget;
+    const id = button.dataset.postid;
+
+    try {
+      const response = await fetch("/likepost/" + id, {
+        headers: { Accept: "application/json" }
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to toggle like");
+      }
+
+      const data = await response.json();
+
+      if (likeDict[id]) {
+        const currentLikes = parseInt(likeDict[id].innerHTML, 10) || 0;
+
+        if (data.liked) {
+          likeDict[id].innerHTML = currentLikes - 1;
+          if (window.showToast) {
+            window.showToast("Like removed");
+          }
+        } else {
+          likeDict[id].innerHTML = currentLikes + 1;
+          if (window.showToast) {
+            window.showToast("Liked");
+          }
+        }
+      } else if (window.showToast) {
+        window.showToast("Done");
+      }
+    } catch (error) {
+      if (window.showToast) {
+        window.showToast("Like failed. Please try again.", "error");
+      }
+      console.error(error);
+    }
+  });
 }
