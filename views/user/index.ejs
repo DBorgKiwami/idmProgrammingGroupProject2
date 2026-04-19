@@ -20,7 +20,7 @@
         <div class="postinfo">
             <div class="postgame"><%=userPosts[i].game_name%></div>
             <div class="postusername"><a href="/user/<%=userPosts[i].user_id%>"><%=userPosts[i].username%></a></div>
-            <div class="postlikes"><%=userPosts[i].like_count%></div>
+            <div class="postlikes" data-postid="<%=userPosts[i].post_id%>"><%=userPosts[i].like_count%></div>
         </div>
           <% if (user) { %>
           <div class="commentform">
@@ -36,4 +36,8 @@
           </div>
     </div>
 <% } %>
+<script src="/toast.js"></script>
+<script src="/viewcomments.js"></script>
+<script src="/likebutton.js"></script>
+<script src="/commentform.js"></script>
 </body>

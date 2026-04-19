@@ -1,5 +1,4 @@
 const commentmodel = require("../models/commentmodel");
-const qs = require("querystring");
 
 class CommentController {
   async getCommentsByPostId(req, res){
@@ -16,7 +15,13 @@ class CommentController {
     console.log(req.body.content)
     console.log(req.session.user)
     console.log(req.session.user.user_id)
-    const comment = await commentmodel.createComment(req.body.content,req.session.user.user_id,req.params.id)
+    await commentmodel.createComment(req.body.content, req.session.user.user_id, req.params.id);
+    const acceptsJson = req.get("accept") && req.get("accept").includes("application/json");
+    const requestedWith = req.get("x-requested-with") === "XMLHttpRequest";
+
+    if (acceptsJson || requestedWith) {
+      return res.status(201).send({ success: true });
+    }
 
     res.redirect("/");
   }
