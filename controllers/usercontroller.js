@@ -1,6 +1,9 @@
 const usermodel = require("../models/usermodel");
 const postmodel = require("../models/postmodel");
 const gamesmodel = require("../models/gamesmodel");
+const bcrypt = require("bcrypt");
+
+const SALT = 10;
 
 class UserController {
   async getUserById(req, res) {
@@ -28,7 +31,7 @@ class UserController {
     const { login, password } = req.body; // 'login' matches the name="login" in your EJS
     const user = await usermodel.findUserByUsername(login);
 
-    if (user && user.password === password) {
+    if (user && (await bcrypt.compare(password, user.password))) {
         // Simple authentication: save user object to session
         req.session.user = user;
         //fav_genres
@@ -60,7 +63,8 @@ class UserController {
   async register(req, res) {
     const { username, password } = req.body;
     try {
-        await usermodel.registerUser(username, password);
+        const acpassword = await bcrypt.hash(password, SALT);
+        await usermodel.registerUser(username, acpassword);
         res.redirect("/login?registered=1");
     } catch (err) {
         res.render("user/register", { error: "Registration failed or username taken" });

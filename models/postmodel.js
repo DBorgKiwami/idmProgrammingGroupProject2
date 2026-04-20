@@ -17,7 +17,9 @@ class PostModel{
       return results;
     } catch (err) {
       return console.error("Pool Query Error: " + err);
-    }
+    }finally {
+            await connection.end();
+        }
   }
 
   async getPostsByUserId(id) {
@@ -29,7 +31,9 @@ class PostModel{
       return results;
     } catch (err) {
       return console.error("Pool Query Error: " + err);
-    }
+    }finally {
+            await connection.end();
+        }
   }
 
   async getPostsByGameGenre(genre) {
@@ -41,7 +45,9 @@ class PostModel{
       return results;
     } catch (err) {
       return console.error("Pool Query Error: " + err);
-    }
+    }finally {
+            await connection.end();
+        }
   }
 
   async createPost(title, content, gameid, userid){
@@ -55,7 +61,9 @@ class PostModel{
       return;
     } catch (err) {
       return console.error("Pool Query Error: " + err);
-    }
+    }finally {
+            await connection.end();
+        }
   }
 
   async createPostWithImage(title, content, gameid, userid, image){
@@ -63,6 +71,8 @@ class PostModel{
 
     const filename = crypto.randomUUID() + ".webp";
     const outputPath = path.join(outputDirectory, filename);
+
+    console.log(outputPath.toString())
 
     console.log(image.data)
 
@@ -83,7 +93,9 @@ class PostModel{
       return;
     } catch (err) {
       return console.error("Pool Query Error: " + err);
-    }
+    }finally {
+            await connection.end();
+        }
   }
 }
 module.exports = new PostModel();

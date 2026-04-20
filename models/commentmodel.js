@@ -16,7 +16,9 @@ class CommentModel{
         return results;
     } catch (err) {
       return console.error("Pool Query Error: " + err);
-    }
+    }finally {
+            await connection.end();
+        }
   }
 
   async createComment(content, user_id, post_id){
@@ -29,7 +31,9 @@ class CommentModel{
       return;
     } catch (err) {
       return console.error("Pool Query Error: " + err);
-    }
+    }finally {
+            await connection.end();
+        }
   }
 }
 module.exports = new CommentModel();

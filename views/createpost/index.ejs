@@ -5,6 +5,9 @@
         Create Post
     </h1>
     <form action="/sendpost" method="post" enctype="multipart/form-data" class="upload-form">
+        <% if(errormessage){ %>
+            <p>Error: <%=errormessage%></p>
+        <% } %>
 		<input id="title" name="title" type="text" placeholder="Post Title" required>
 		<input id="content" name="content" type="text" placeholder="Post Content" required>
 		<input id="gamesearch" type="text" placeholder="Search for a game...">

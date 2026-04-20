@@ -13,6 +13,8 @@ class UsersModel{
           return results;
         } catch (err) {
           return console.error("Pool Query Error: " + err);
+        }finally {
+            await connection.end();
         }
       }
 

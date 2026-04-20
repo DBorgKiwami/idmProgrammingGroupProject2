@@ -17,7 +17,9 @@ class LikeModel{
         return results;
     } catch (err) {
       return console.error("Pool Query Error: " + err);
-    }
+    }finally {
+            await connection.end();
+        }
   }
 
   async removeLike(post_id, user_id){
@@ -29,7 +31,9 @@ class LikeModel{
         return results;
     } catch (err) {
       return console.error("Pool Query Error: " + err);
-    }
+    }finally {
+            await connection.end();
+        }
   }
 
   async addLike(post_id, user_id){
@@ -42,7 +46,9 @@ class LikeModel{
     } catch (err) {
       console.error("Pool Query Error: " + err);
       return false;
-    }
+    }finally {
+            await connection.end();
+        }
   }
 }
 module.exports = new LikeModel();

@@ -48,8 +48,20 @@
                                     <p class="post-card-body"><%=post.post_body%></p>
                                     <div class="post-card-meta">
                                         <span class="post-card-user"><i class="fas fa-circle-user"></i> <%=post.username%></span>
-                                        <span class="post-card-likes"><i class="fas fa-heart"></i> <%=post.like_count%></span>
+                                        <span class="post-card-likes"><i class="fas fa-heart"></i><span class="postlikes" data-postid="<%=post.post_id%>"><%=post.like_count%></span></span>
                                     </div>
+
+                                    <% if (user) { %>
+                                        <div class="post-card-actions">
+                                            <button class="likebutton action-btn" id="likebutton" data-postid="<%=post.post_id%>">
+                                                <i class="fas fa-heart"></i> Like
+                                            </button>
+                                            <form action="/comment/<%=post.post_id%>" method="post" class="comment-form">
+                                                <input type="text" id="content" name="content" placeholder="Write a comment..." class="comment-input">
+                                                <button type="submit" class="comment-submit">Post</button>
+                                            </form>
+                                        </div>
+                                    <% } %>
                                     
                                     <button class="commentbutton action-btn" data-postid="<%=post.post_id%>">
                                         <i class="fas fa-comment"></i> View Comments
@@ -131,8 +143,6 @@
     </main>
 </div>
 
-<script src="/toast.js"></script>
 <script src="/viewcomments.js"></script>
 <script src="/likebutton.js"></script>
-<script src="/commentform.js"></script>
 <%- include("../partials/footer.ejs") %>

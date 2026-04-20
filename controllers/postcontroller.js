@@ -44,7 +44,7 @@ class PostsController {
 
   async createPostPage(req, res){
      res.render("createpost/", {
-
+      errormessage: null
     });
   }
 
@@ -56,12 +56,22 @@ class PostsController {
     //title, content, gameid, userid, imagepath
     if (!req.files || req.files.length === 0) {
       const posts = await postmodel.createPost(req.body.title, req.body.content, req.body.game, req.session.user.user_id)
+      res.redirect("/");
     }
     else{
-      const posts = await postmodel.createPostWithImage(req.body.title, req.body.content, req.body.game, req.session.user.user_id, req.files.image)
+      try{
+        const posts = await postmodel.createPostWithImage(req.body.title, req.body.content, req.body.game, req.session.user.user_id, req.files.image)
+        res.redirect("/");
+      }
+      catch(err){
+        console.log("Image Uploading is Disabled on the College Server")
+        res.render("createpost/", {
+          errormessage: "Image uploading disabled on college server."
+        });
+      }
     }
 
-    res.redirect("/");
+    
   }
 }
 
